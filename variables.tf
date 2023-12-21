@@ -4,6 +4,12 @@ variable "name" {
   type        = string
 }
 
+variable "create_subnet" {
+  description = "Boolean flag whether to create a shared route tables."
+  default     = false
+  type        = bool
+}
+
 variable "availability_zone" {
   type        = string
   default     = ""
@@ -14,6 +20,36 @@ variable "cidr_block" {
   type        = string
   default     = ""
   description = "The IPv4 CIDR block for the subnet."
+}
+
+variable "create_shared_route_table" {
+  description = "Boolean flag whether to create a shared route tables."
+  default     = false
+  type        = bool
+}
+
+variable "create_route_table" {
+  description = "Boolean flag whether to create a shared route tables."
+  default     = false
+  type        = bool
+}
+
+variable "associate_route_table" {
+  description = "Boolean flag whether to create a shared route tables."
+  default     = false
+  type        = bool
+}
+
+variable "existing_route_table_id" {
+  type        = string
+  default     = ""
+  description = "Id of an existing route table to associate with the subnet."
+}
+
+variable "route_table_name" {
+  type        = string
+  default     = ""
+  description = "Name (tag) of a subnet and, optionally a route table, to create or use.  Defaults to `name` value."
 }
 
 variable "vpc_id" {
@@ -38,4 +74,10 @@ variable "global_tags" {
   description = "Optional map of arbitrary tags to apply to all the created resources."
   default     = {}
   type        = map(string)
+}
+
+variable "propagating_vgws" {
+  description = "See the [provider's documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table)."
+  default     = []
+  type        = list(string)
 }
