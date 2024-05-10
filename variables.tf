@@ -81,3 +81,53 @@ variable "propagating_vgws" {
   default     = []
   type        = list(string)
 }
+
+variable "assign_ipv6_address_on_creation" {
+  type        = bool
+  default     = false
+  description = "Specify true to indicate that network interfaces created in the specified subnet should be assigned an IPv6 address. Default is false"
+}
+
+variable "customer_owned_ipv4_pool" {
+  type        = string
+  nullable = true
+  default     = null
+  description = "The customer owned IPv4 address pool. Typically used with the map_customer_owned_ip_on_launch argument. The outpost_arn argument must be specified when configured."
+}
+
+
+variable "enable_dns64" {
+  type        = bool
+  default     = false
+  description = "Indicates whether DNS queries made to the Amazon-provided DNS Resolver in this subnet should return synthetic IPv6 addresses for IPv4-only destinations. Default: false."
+}
+
+variable "ipv6_cidr_block" {
+  type = string
+  default = null
+  description = "The IPv6 network range for the subnet, in CIDR notation. The subnet size must use a /64 prefix length."
+}
+
+variable "ipv6_native" {
+  type = bool
+  default = false
+  description = "Indicates whether to create an IPv6-only subnet. Default: false."
+}
+
+variable "map_customer_owned_ip_on_launch" {
+  type = bool
+  default = false
+  description = "Specify true to indicate that network interfaces created in the subnet should be assigned a customer owned IP address. The customer_owned_ipv4_pool and outpost_arn arguments must be specified when set to true. Default is false."
+}
+
+variable "outpost_arn" {
+  type = string
+  default = null
+  description = "The Amazon Resource Name (ARN) of the Outpost."
+}
+
+variable "private_dns_hostname_type_on_launch" {
+  type = string
+  default = null
+  description = "The type of hostnames to assign to instances in the subnet at launch. For IPv6-only subnets, an instance DNS name must be based on the instance ID. For dual-stack and IPv4-only subnets, you can specify whether DNS names use the instance IPv4 address or the instance ID. Valid values: ip-name, resource-name."
+}

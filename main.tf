@@ -8,12 +8,16 @@ data "aws_subnet" "this" {
 
 #### Create Subnets ####
 resource "aws_subnet" "this" {
-  count                   = var.create_subnet ? 1 : 0
-  cidr_block              = var.cidr_block
-  availability_zone       = var.availability_zone
-  vpc_id                  = var.vpc_id
-  map_public_ip_on_launch = var.map_public_ip_on_launch
-  tags                    = merge(var.global_tags, local.local_tags, { Name = local.name })
+  count                           = var.create_subnet ? 1 : 0
+  cidr_block                      = var.cidr_block
+  availability_zone               = var.availability_zone
+  vpc_id                          = var.vpc_id
+  map_public_ip_on_launch         = var.map_public_ip_on_launch
+  assign_ipv6_address_on_creation = var.assign_ipv6_address_on_creation
+  # customer_owned_ipv4_pool        = var.customer_owned_ipv4_pool
+  enable_dns64                    = var.enable_dns64
+  ipv6_cidr_block                 = var.ipv6_cidr_block
+  tags                            = merge(var.global_tags, local.local_tags, { Name = local.name })
 
   #   depends_on = [
   #     var.has_secondary_cidrs
@@ -53,7 +57,7 @@ resource "aws_route_table" "shared" {
 }
 
 resource "aws_route_table_association" "this" {
-  count =  var.associate_route_table ? 1 : 0
+  count = var.associate_route_table ? 1 : 0
 
   subnet_id      = aws_subnet.this[0].id
   route_table_id = !var.create_shared_route_table ? local.route_table.id : aws_route_table.shared[0].id
